@@ -1,12 +1,14 @@
 package com.example.agile_tech;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     private void post(String Login_Email, String Login_Password) {
         progress_bar.setVisibility(View.VISIBLE);
         RetrofitApi retrofit = apiclient.getApi();
@@ -82,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
                 } else {
 
-                    Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Invalid Credentials", Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),response.body().response, Snackbar.LENGTH_LONG);
 //                    snackbar.setAction("OK", new View.OnClickListener() {
 //                        @Override
 //                        public void onClick(View v) {

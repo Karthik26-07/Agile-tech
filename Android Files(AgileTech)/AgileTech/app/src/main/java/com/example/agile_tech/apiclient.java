@@ -31,7 +31,7 @@ public class apiclient {
     public static RetrofitApi getApi() {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("http:192.168.1.2:80/Agiletech/")
+                .baseUrl("http:192.168.1.4:80/Agiletech/")
                 .client(client)
                 .build();
         RetrofitApi api = retrofit.create(RetrofitApi.class);

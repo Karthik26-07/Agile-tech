@@ -1,5 +1,7 @@
 package com.example.agile_tech;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -39,4 +41,6 @@ public interface RetrofitApi {
             @Field("radio") String radio
     );
 
+    @GET("Attendance/get_Attendance.php")
+    Call<List<AttendanceModal>> get_Attendance();
 }

@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -24,7 +23,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.agile_tech.AttendanceModal;
 import com.example.agile_tech.DataModal;
 import com.example.agile_tech.R;
 import com.example.agile_tech.RetrofitApi;
@@ -36,11 +38,14 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Attendance extends Fragment {
+
     Button next;
     int flag = 0;
     String latitude = "";
@@ -48,22 +53,26 @@ public class Attendance extends Fragment {
     boolean loc_enabled = true;
     private FusedLocationProviderClient mFusedLocationProvderClient;
     RadioGroup radioGroup;
-    RadioButton radioButton;
+
     String radio;
+    RecyclerView recyclerView;
+    LinearLayoutManager linearLayoutManager;
+    AttendanceAdapter attendanceAdapter;
 
 
     // View fragment
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.attedence, container, false);
+        View v = inflater.inflate(R.layout.attendance, container, false);
         getLocation();
         if (loc_enabled) {
             isLocationEnabled();
         }
         next = v.findViewById(R.id.next_page);
         radioGroup = v.findViewById(R.id.radio);
-
+        recyclerView = v.findViewById(R.id.recyclerView);
+        attendance();
         return v;
     }
 
@@ -190,11 +199,12 @@ public class Attendance extends Fragment {
                             attendance.enqueue(new Callback<DataModal>() {
                                 @Override
                                 public void onResponse(Call<DataModal> call, Response<DataModal> response) {
-                                    Toast.makeText(getContext(),response.body().response, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), response.body().response, Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override
                                 public void onFailure(Call<DataModal> call, Throwable t) {
+                                    Toast.makeText(getContext(), t.toString(), Toast.LENGTH_SHORT).show();
 
                                 }
                             });
@@ -211,6 +221,28 @@ public class Attendance extends Fragment {
 
             @Override
             public void onFailure(Call<DataModal> call, Throwable t) {
+                Toast.makeText(getContext(), t.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
+    public void attendance() {
+        RetrofitApi retrofit = apiclient.getApi();
+        Call<List<AttendanceModal>> attend = retrofit.get_Attendance();
+        attend.enqueue(new Callback<List<AttendanceModal>>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onResponse(Call<List<AttendanceModal>> call, Response<List<AttendanceModal>> response) {
+                linearLayoutManager = new LinearLayoutManager(getContext());
+                recyclerView.setLayoutManager(linearLayoutManager);
+                attendanceAdapter = new AttendanceAdapter(response.body(), getContext());
+                recyclerView.setAdapter(attendanceAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<AttendanceModal>> call, Throwable t) {
                 Toast.makeText(getContext(), t.toString(), Toast.LENGTH_SHORT).show();
 
             }
