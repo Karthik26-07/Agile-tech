@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -58,22 +59,31 @@ public class Attendance extends Fragment {
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     AttendanceAdapter attendanceAdapter;
-
+    TextView Date, Morning, Evening;
+    View M;
 
     // View fragment
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.attendance, container, false);
+        M = inflater.inflate(R.layout.attendance, container, false);
+        M.setVisibility(View.INVISIBLE);
         getLocation();
         if (loc_enabled) {
             isLocationEnabled();
         }
-        next = v.findViewById(R.id.next_page);
-        radioGroup = v.findViewById(R.id.radio);
-        recyclerView = v.findViewById(R.id.recyclerView);
+        next = M.findViewById(R.id.next_page);
+        radioGroup = M.findViewById(R.id.radio);
+        recyclerView = M.findViewById(R.id.recyclerView);
+        Date = M.findViewById(R.id.date1);
+        Morning = M.findViewById(R.id.morn);
+        Evening = M.findViewById(R.id.eve);
+        Date.setVisibility(View.INVISIBLE);
+        Morning.setVisibility(View.INVISIBLE);
+        Evening.setVisibility(View.INVISIBLE);
+
         attendance();
-        return v;
+        return M;
     }
 
     //for turn on the device location while application is running
@@ -166,16 +176,19 @@ public class Attendance extends Fragment {
         loc.enqueue(new Callback<DataModal>() {
             @Override
             public void onResponse(@NonNull Call<DataModal> call, @NonNull Response<DataModal> response) {
-//                Toast.makeText(getContext(), response.body().response, Toast.LENGTH_SHORT).show();
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage(response.body().response);
-                builder.setTitle("Alert !");
-                builder.setCancelable(false);
-                builder.setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
+                Toast.makeText(getContext(), response.body().response, Toast.LENGTH_SHORT).show();
+//                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//                builder.setMessage(response.body().response);
+//                builder.setTitle("Alert !");
+//                builder.setCancelable(false);
+//                builder.setPositiveButton("OK", (DialogInterface.OnClickListener) (dialog, which) -> {
+//
+//                });
+//                AlertDialog alertDialog = builder.create();
+//                alertDialog.show();
+//                v.setVisibility(View.VISIBLE);
+                M.setVisibility(View.VISIBLE);
 
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
                 next.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -235,10 +248,19 @@ public class Attendance extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onResponse(Call<List<AttendanceModal>> call, Response<List<AttendanceModal>> response) {
-                linearLayoutManager = new LinearLayoutManager(getContext());
-                recyclerView.setLayoutManager(linearLayoutManager);
-                attendanceAdapter = new AttendanceAdapter(response.body(), getContext());
-                recyclerView.setAdapter(attendanceAdapter);
+                if (response.body().isEmpty()) {
+                    Date.setVisibility(View.INVISIBLE);
+                    Morning.setVisibility(View.INVISIBLE);
+                    Evening.setVisibility(View.INVISIBLE);
+                } else {
+                    Date.setVisibility(View.VISIBLE);
+                    Morning.setVisibility(View.VISIBLE);
+                    Evening.setVisibility(View.VISIBLE);
+                    linearLayoutManager = new LinearLayoutManager(getContext());
+                    recyclerView.setLayoutManager(linearLayoutManager);
+                    attendanceAdapter = new AttendanceAdapter(response.body(), getContext());
+                    recyclerView.setAdapter(attendanceAdapter);
+                }
             }
 
             @Override

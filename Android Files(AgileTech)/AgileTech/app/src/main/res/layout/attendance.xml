@@ -47,7 +47,8 @@
         android:background="@drawable/button"
         android:text="PUT ATTENDANCE"
         android:textAllCaps="false"
-        android:textColor="#e9e4eb" />
+        android:textColor="#e9e4eb"
+        android:layout_marginStart="3dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <style>
             .stud{
-                width: 60%;
+                width: 80%;
                 left: 8%;
             }
             .button {
@@ -38,9 +38,9 @@
     <body>
         <form class=" card index my-5 stud  shadow-lg p-3 mb-5 bg-white rounded">
 
-
-            <div class="form-group row my-5 ">
-
+ 
+            <div class="form-group row my-5  text-center">
+                <label class=" col-form-label px-5"> </label>
                 <label class=" col-form-label px-3">  <b> Name:</b></label> <select class="btn btn-secondary px-3" name="selectnameid" id="name" selected="selected">
                     <option value="" selected="selected"  >--Select Name--</option>
                     <?php
@@ -87,7 +87,9 @@
             <div class="text-center">
                 <button class="btn-primary button" id="button">Show</button>
             </div>
+        
         </form>
+        
         <div id="display"></div>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -100,7 +102,7 @@
                 $("#button").click(function (e) {
                     if ($("#name").val() === "" || $("#year").val() === "" || $("#month").val() === "") {
 
-                        
+                        alert('Please select option from all given fields ');
                     } else {
                         $.ajax({
                             type: "GET",

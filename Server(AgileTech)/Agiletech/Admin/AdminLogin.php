@@ -54,6 +54,19 @@ if (isset($_POST['submit'])) {
 
             }
             .error {color: #FF0001;}
+
+            body {
+                background-image: url("images.jpg");
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+                position: relative;
+                z-index: 2;
+                overflow: hidden;
+
+
+            }
+
         </style>
 
     </head>
@@ -62,7 +75,7 @@ if (isset($_POST['submit'])) {
         <nav class="navbar navbar-light" style="background-color: #a041e8">
             <span class="navbar-brand mb-0 h1">Admin </span>
         </nav>
-        <form class=" card index my-5  shadow-lg p-3 mb-5 bg-white rounded" method="post"  action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <form class=" card index my-5  shadow-lg p-3 mb-5 bg-white rounded body" method="post"  action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <div class="row justify-content-center align-items-center">
                 <img src="icon.png"  alt="Responsive image" height="100px" width="100px">
             </div>
@@ -108,7 +121,7 @@ if (isset($_POST['submit'])) {
                 <!--<span class="error"> <?php echo $msg; ?> </span>-->
 
             </div>
-            <button class="btn  my-2 btn-1g" style="background-color: #8f02fa" name="submit"type="submit">Login</button>
+            <button class="btn  my-2 btn-1g text-white" style="background-color: #8f02fa" name="submit"type="submit">Login</button>
 
 
         </form>

@@ -22,7 +22,13 @@
             android:name=".Register"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar.Bridge" />
         <activity
+
             android:name=".MainActivity"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar.Bridge" />
+
+        <activity
+
+            android:name=".SplashScreen"
             android:exported="true"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
             <intent-filter>

@@ -1,4 +1,4 @@
-<
+
 
 <?php
 include('../Admin/Admin_Homepage.php');
@@ -30,11 +30,34 @@ and open the template in the editor.
                 width: 85%;
                 left: 8%;
             }
+            body {
+                background-image: url("Home.webp");
+                background-size: cover;
+                background-repeat: no-repeat;
+                /*background-position: center;*/
+                position: relative;
+                /*z-index: 2;*/
+                overflow: auto;
+
+
+            }
         </style>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var scrollpos = localStorage.getItem('scrollpos');
+                if (scrollpos)
+                    window.scrollTo(0, scrollpos);
+            });
+
+            window.onbeforeunload = function () {
+                localStorage.setItem('scrollpos', window.scrollY);
+            };
+        </script>
+
     </head>
 
     <body>
-        <form class=" card stud   shadow-lg p-3 mb-5 bg-white rounded" method="post" id="form">
+        <form class=" card stud   shadow-lg p-3 mb-5 bg-white rounded body" method="post" id="form">
             <div class="form-group ">
 
             </div>
@@ -68,22 +91,24 @@ and open the template in the editor.
                                     <td><?php echo $row['email_id']; ?></td>
                                     <td> <?php
                                         if ($row['flag'] == 0) {
-                                            echo 'Deactive';
+                                           
+                                            echo   '<span style="color:#fc0313;text-align:center;">Deactive</span>';
                                         } else {
-                                            echo 'Active';
+                                           
+                                            echo  '<span style="color:#36b028;text-align:center;">Active</span>';
                                         }
                                         ?></td>
                                     <td class="Action" id="<?= $row['Id'] ?>"> <?php
-                                        if ($row['flag'] == ' 0') {
-                                            echo '<p> <button type="button"  onclick="change(' . $row['Id'] . ');" class="btn btn-success" >Enable</button></p>';
+                                        if ($row['flag'] == '0') {
+                                            echo '<p> <button type="button"  onclick="change(' . $row['Id'] . ',1);" class="btn btn-success" >Enable</button></p>';
 
-//                                    echo '<p> <a href="../Faculty/UpdateStatus.php?id='.$row['Id'].'&flag=1" class="btn btn-success" >Enable</button></p>';
-                                        } else if ($row['flag'] == ' 1') {
-                                            echo '<p> <button type="button"  onclick="change(' . $row['Id'] . ');" class="btn btn-danger" >Disable</button></p>';
-//                                      echo '<p> <a href="../Faculty/UpdateStatus.php?id='.$row['Id'].'&flag=0" class="btn btn-danger" >Disable</button></p>';
+//                                    echo '<p> <a href="UpdateStatus.php?id='.$row['Id'].'&flag=1" class="btn btn-success" id="check" >Enable</a></p>';
+                                        } else if ($row['flag'] == '1') {
+                                            echo '<p> <button type="button"  onclick="change(' . $row['Id'] . ',0);" class="btn btn-danger" >Disable</button></p>';
+//                                      echo '<p> <a href="UpdateStatus.php?id='.$row['Id'].'&flag=0" class="btn btn-danger" id="check" >Disable</a></p>';
                                         }
                                         ?></td>
-                                <?php
+                                    <?php
                                 }
                             }
                             ?>
@@ -98,36 +123,28 @@ and open the template in the editor.
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
+
         <script type="text/javascript"  >
 
-            function change(id) {
+            function change(id, data) {
+                if (confirm('Are you sure?')) {
+                    $.ajax({
+                        type: "GET",
+                        url: "UpdateStatus.php",
 
-
-//document.getElementById(id).style.background='#000000';
-
-                $.ajax({
-                    type: "POST",
-                    url: "UpdateStatus.php",
-
-                    data: {id: id},
-                    timeout: 10000,
-                    success: function () {
-//                        location.reload();
-//                        window.location.href = "../Admin/Admin_Homepage.php?";
-                        window.location.href = "FacultyPage.php";
-// $( "#here" ).load(window.location.href + " #here" );
-
-// $( "../Admin/Admin_Homepage.php?" ).load(window.location.href + "../Admin/Admin_Homepage.php?" );
-
-                    }
-
-
-
-
-
-                });
-                event.preventDefault();
+                        data: {id: id,
+                            flag: data},
+                        timeout: 10000,
+                        success: function () {
+                            document.location.reload()
+                        }
+                    });
+                } else {
+                    // Do nothing!
+                   
+                }
             }
+
 
         </script>
 

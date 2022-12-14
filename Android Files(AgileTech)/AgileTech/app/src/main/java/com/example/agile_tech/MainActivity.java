@@ -1,6 +1,7 @@
 package com.example.agile_tech;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -34,7 +35,10 @@ public class MainActivity extends AppCompatActivity {
         email = findViewById(R.id.login_email);
         password = findViewById(R.id.login_password);
         login = findViewById(R.id.login);
-//        error=findViewById(R.id.email_error);
+
+
+//
+        Resume();
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         });
         login.setOnClickListener(new View.OnClickListener() {
 
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
             @Override
             public void onClick(View v) {
                 String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -62,51 +67,85 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
-
-
     }
+
+    private void Resume() {
+        SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        String Email = sh.getString("email", "");
+        String Password = sh.getString("password", "");
+        Intent intent2 = new Intent(MainActivity.this, HomeActivity.class);
+        if (!(Email.equals("") && Password.equals(""))) {
+
+            startActivity(intent2);
+            finish();
+        }
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     private void post(String Login_Email, String Login_Password) {
         progress_bar.setVisibility(View.VISIBLE);
         RetrofitApi retrofit = apiclient.getApi();
 
-        Call<DataModal> log = retrofit.login(Login_Email, Login_Password);
-        log.enqueue(new Callback<DataModal>() {
-            @Override
-            public void onResponse(Call<DataModal> call, Response<DataModal> response) {
-                //   Toast.makeText(MainActivity.this, response.body().response, Toast.LENGTH_SHORT).show();
-                progress_bar.setVisibility(View.GONE);
-                if (response.body().response.equals("Successfully login")) {
-                    Toast.makeText(MainActivity.this, "Successfully login", Toast.LENGTH_SHORT).show();
 
-                    Intent intent1 = new Intent(MainActivity.this, HomeActivity.class);
-                    startActivity(intent1);
 
-                } else {
 
-                    Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),response.body().response, Snackbar.LENGTH_LONG);
+        Call<logindatamodal> log = retrofit.login(Login_Email, Login_Password);
+       log .enqueue(new Callback<logindatamodal>() {
+           @Override
+           public void onResponse(Call<logindatamodal> call, Response<logindatamodal> response) {
+               progress_bar.setVisibility(View.GONE);
+//                Toast.makeText(MainActivity.this, response.body().Email, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, response.body().Name, Toast.LENGTH_SHORT).show();
+               if (response.body().response.equals("Successfully login")) {
+                   SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+                   SharedPreferences.Editor myEdit = sharedPreferences.edit();
+
+                   // write all the data entered by the user in SharedPreference and apply
+                   myEdit.putString("email", response.body().Email);
+
+                   myEdit.putString("password", password.getText().toString());
+                   myEdit.putString("username",response.body().Name);
+                   myEdit.putString("ID",response.body().Id);
+                   myEdit.apply();
+
+
+                   Toast.makeText(MainActivity.this, "Successfully login", Toast.LENGTH_SHORT).show();
+
+                   Intent intent1 = new Intent(MainActivity.this, HomeActivity.class);
+                   startActivity(intent1);
+
+               } else {
+
+                   Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), response.body().response, Snackbar.LENGTH_LONG);
 //                    snackbar.setAction("OK", new View.OnClickListener() {
 //                        @Override
 //                        public void onClick(View v) {
 //
 //                        }
 //                    });
-                    snackbar.show();
+                   snackbar.show();
 
-                }
+               }
+           }
 
-            }
+           @Override
+           public void onFailure(Call<logindatamodal> call, Throwable t) {
+               Toast.makeText(MainActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+               progress_bar.setVisibility(View.GONE);
+           }
+       });
 
 
-            @Override
-            public void onFailure(Call<DataModal> call, Throwable t) {
 
-                Toast.makeText(MainActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
-                progress_bar.setVisibility(View.GONE);
 
-            }
-        });
+
+
+
+
+
+
+
     }
 }
 

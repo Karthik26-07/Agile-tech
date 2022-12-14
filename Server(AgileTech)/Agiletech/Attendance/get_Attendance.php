@@ -9,9 +9,8 @@ $Date = $date->format('d-m-Y');
 //$id=73;
 $sql = "SELECT *
 FROM attendance
-WHERE user_id='$id' 
- 
- ORDER BY id DESC LIMIT 7";
+WHERE DATEDIFF(DATE,CURDATE() )<7
+AND user_id='$id'";
 $result = mysqli_query($con, $sql);
 $Attendance = [];
 while ($row = mysqli_fetch_assoc($result)) {
@@ -27,8 +26,9 @@ while ($row = mysqli_fetch_assoc($result)) {
     } else {
         $second = 'Absent';
     }
+    $newDate = date("d-m-Y", strtotime($row['date']));
     $item = array(
-        "date" => $row['date'],
+        "date" => $newDate,
         "first_half" => $first,
         "first_half_time" => $row['first_half_time'],
         "second_half" => $second,

@@ -21,11 +21,11 @@ public interface RetrofitApi {
             @Field("Password") String password
     );
 
-    @FormUrlEncoded
-    @POST("Register&login/login.php ")
-    Call<DataModal> login(
-            @Field("Login_Email") String login_email,
-            @Field("Login_Password") String login_password
+
+    @GET("Register&login/login.php ")
+    Call<logindatamodal> login(
+            @Query("Login_Email") String login_email,
+            @Query("Login_Password") String login_password
     );
 
 
@@ -43,4 +43,14 @@ public interface RetrofitApi {
 
     @GET("Attendance/get_Attendance.php")
     Call<List<AttendanceModal>> get_Attendance();
+
+
+    @GET("Register&login/Logout.php ")
+    Call<DataModal> logout();
+
+    @FormUrlEncoded
+    @POST("Register&login/setsession.php")
+    Call<DataModal> user_id(
+            @Field("U_ID") String U_ID
+    );
 }
