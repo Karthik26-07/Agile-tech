@@ -2,15 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/xampp/htdocs/Agiletech/Log/Logrun.php</file>
-            <file>file:/C:/xampp/htdocs/Agiletech/Configure/Holyday.php</file>
-            <file>file:/C:/xampp/htdocs/Agiletech/Attendance/get_Attendance.php</file>
-            <file>file:/C:/xampp/htdocs/Agiletech/Register&amp;login/login.php</file>
-            <file>file:/C:/xampp/htdocs/Agiletech/Configure/InsertRow.php</file>
-            <file>file:/C:/xampp/htdocs/Agiletech/Attendance/put_Attendance.php</file>
-            <file>file:/C:/xampp/htdocs/Agiletech/Attendance/Attendance.php</file>
-            <file>file:/C:/xampp/htdocs/Agiletech/Register&amp;login/setsession.php</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

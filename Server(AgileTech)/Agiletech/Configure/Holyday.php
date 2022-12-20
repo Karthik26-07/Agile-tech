@@ -69,7 +69,17 @@ if (empty($_POST['m_time'])) {
         </style>
         <title></title>
     </head>
-    <body>
+    <body><?php
+    include('../Database_Connection/Dbconnect.php');
+    $time="select * from  time_management where ID=1";
+    $result= mysqli_query($con, $time);
+    $row= mysqli_fetch_assoc($result);
+    $morning=$row['morning_time'];
+    $evening=$row['evening_time'];
+    
+    
+    
+    ?>
          <div class="col text-right">
         <a class="btn  my-2 btn-1g text-white" style="background-color: #8f02fa" style="float: left;" href="../Configure/InsertRow.php">Monthly Attendance</a>
          </div>
@@ -84,13 +94,13 @@ if (empty($_POST['m_time'])) {
 
                     <div class="form-group">
                         <label for="name"><b>Morning Time</b></label>
-                        <input type="text" class="form-control" id="time" name="m_time">
+                        <input type="text" class="form-control" id="time"value="<?php echo $morning; ?>" name="m_time">
                         <span class="error"><?php echo $m_timeErr; ?> </span>
 
                     </div>
                     <div class="form-group">
                         <label for="time"><b>Evening Time</b></label>
-                        <input type="subcode" class="form-control" id="etime" name="E_time">
+                        <input type="subcode" class="form-control" id="etime" value="<?php echo $evening; ?>"name="E_time">
                         <span class="error"><?php echo $e_timeErr; ?> </span>
 
                     </div>            
@@ -143,10 +153,7 @@ if (empty($_POST['m_time'])) {
             });
         </script> 
 
-    </body>
-
-
-</html>
+   
 <?php
 include('../Database_Connection/Dbconnect.php');
 if (isset($_POST['submit'])) {
@@ -187,3 +194,7 @@ if (isset($_POST['update'])) {
     }
 }
 ?>
+ </body>
+
+
+</html>

@@ -18,6 +18,21 @@ $Year = $date->format('Y');
 $flag= TRUE;
 
 
+   
+    $time="select * from  time_management where ID=1";
+    $result6= mysqli_query($con, $time);
+    $row1= mysqli_fetch_assoc($result6);
+    $morning=$row1['morning_time'];
+    $evening=$row1['evening_time'];
+    
+    
+    
+    
+
+
+
+
+
 $guery = "select * from attendance where date='$current_date' and user_id='$id'";
 $result = mysqli_query($con, $guery);
 while ($row = mysqli_fetch_assoc($result)) {
@@ -84,13 +99,14 @@ function firsthalf() {
     $Id = $GLOBALS['id'];
     $Date = $GLOBALS['current_date'];
     $first_half = "1";
+    $morning=$GLOBALS['morning'];
 //    $second_half = "0";
 //    $second_half_time = "00:00:00";
     $conn = $GLOBALS['con'];
 //    $month = $GLOBALS['month'];
 //    $year = $GLOBALS['Year'];
 //Checking he reached the company at currect time
-    if ($first_half_time <= "09:30:00") {
+    if ($first_half_time <=$morning) {
 //reached at current time
         $sql = "update attendance set first_half='$first_half',first_half_time='$first_half_time' where user_id='$Id' and date='$Date' ";
 
@@ -156,7 +172,8 @@ function update_secondhalf() {
     $Date = $GLOBALS['current_date'];
     $second_half = "1";
     $conn = $GLOBALS['con'];
-    if ($second_half_time >= "18:00:00") {
+    $evening=$GLOBALS['evening'];
+    if ($second_half_time >= $evening) {
         $sql = "update attendance set second_half='$second_half',second_half_time='$second_half_time' where user_id='$Id' and date='$Date' ";
 
         if ($conn->query($sql) === TRUE) {
