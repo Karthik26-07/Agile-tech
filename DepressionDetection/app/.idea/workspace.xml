@@ -15,12 +15,17 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
-        <projects_view />
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
       </state>
     </system>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="ProjectId" id="2Lop17NHBuwrKfY1WsLA5QJM0L5" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -32,7 +37,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="D:/Depression_Detection" />
     <property name="settings.editor.selected.configurable" value="preferences.customizations" />
   </component>
   <component name="RunManager">
@@ -107,5 +112,11 @@
       <updated>1676547071853</updated>
     </task>
     <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="421" y="78" key="FileChooserDialogImpl" timestamp="1676549602198">
+      <screen x="0" y="0" width="1280" height="672" />
+    </state>
+    <state x="421" y="78" key="FileChooserDialogImpl/0.0.1280.672@0.0.1280.672" timestamp="1676549602198" />
   </component>
 </project>
